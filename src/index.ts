@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env node
 import { program } from "commander";
 import { readFile } from "node:fs/promises";
 import { resolve, dirname } from "node:path";

@@ -12,9 +12,17 @@ HTMLを16:9のPDFスライドに変換するツール。LLMによるプレゼン
 ## インストール
 
 ```bash
-npm install
+npm install -g @yaichi/power-slide
 npx playwright install chromium
-npm link  # 'power-slide'コマンドとしてグローバルインストール
+```
+
+### 開発
+
+```bash
+git clone https://github.com/yaichi/power-slide
+cd power-slide
+npm install
+npm link
 ```
 
 ## 使い方
@@ -134,4 +142,4 @@ power-slide g git-intro.html -o git-intro.pdf
 
 ## ライセンス
 
-MIT
+Apache-2.0

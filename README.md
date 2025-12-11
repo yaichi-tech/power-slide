@@ -14,9 +14,17 @@ Convert HTML to 16:9 PDF slides. Designed for LLM-generated presentations.
 ## Installation
 
 ```bash
-npm install
+npm install -g @yaichi/power-slide
 npx playwright install chromium
-npm link  # Install globally as 'power-slide' command
+```
+
+### Development
+
+```bash
+git clone https://github.com/yaichi/power-slide
+cd power-slide
+npm install
+npm link
 ```
 
 ## Usage
@@ -136,4 +144,4 @@ Some CSS effects (e.g., `text-shadow`) may render incorrectly in macOS Preview.a
 
 ## License
 
-MIT
+Apache-2.0

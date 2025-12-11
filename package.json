@@ -1,15 +1,36 @@
 {
-  "name": "power-slide",
+  "name": "@yaichi/power-slide",
   "version": "0.1.0",
-  "description": "Convert HTML to 16:9 PDF slides using Playwright",
+  "description": "Convert HTML to 16:9 PDF slides. Designed for LLM-generated presentations.",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "bin": {
-    "power-slide": "./src/index.ts"
+    "power-slide": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "templates",
+    "PROMPTS.md",
+    "PROMPTS.ja.md"
+  ],
   "scripts": {
-    "start": "tsx src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "slides",
+    "pdf",
+    "presentation",
+    "html",
+    "playwright",
+    "llm",
+    "ai"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": ""
   },
   "dependencies": {
     "commander": "^12.1.0",
@@ -20,5 +41,8 @@
     "@types/node": "^22.10.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
