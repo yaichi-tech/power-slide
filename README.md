@@ -16,17 +16,29 @@ Convert HTML to 16:9 PDF slides. Designed for LLM-generated presentations.
 ```bash
 npm install
 npx playwright install chromium
+npm link  # Install globally as 'power-slide' command
 ```
 
 ## Usage
 
-### Basic
+### Commands
 
 ```bash
-npx tsx src/index.ts input.html -o output.pdf
+# Generate PDF
+power-slide generate <input.html> -o output.pdf
+power-slide g <input.html> -o output.pdf  # shorthand
+
+# Output template
+power-slide template [name]    # basic (default), minimal, dark
+power-slide t --list           # list available templates
+power-slide t dark > slides.html
+
+# Output LLM prompts
+power-slide prompt             # English
+power-slide p --ja             # Japanese
 ```
 
-### Options
+### Generate Options
 
 | Option | Description | Default |
 |--------|-------------|---------|
@@ -40,7 +52,7 @@ npx tsx src/index.ts input.html -o output.pdf
 Some CSS properties don't render correctly in PDF print mode. Use `-s` flag for full CSS support:
 
 ```bash
-npx tsx src/index.ts input.html -o output.pdf -s
+power-slide g input.html -o output.pdf -s
 ```
 
 **Note:** Screenshot mode produces rasterized output (images embedded in PDF).
@@ -77,15 +89,28 @@ Each slide is a `<section class="slide">`:
 
 ## Templates
 
-See `templates/` directory for starter templates:
+Get starter templates with the `template` command:
 
-- `basic.html` - Standard presentation with title, content, and end slides
-- `minimal.html` - Clean, minimal design
-- `dark.html` - Modern dark theme with code blocks
+```bash
+power-slide t --list           # List templates
+power-slide t basic > slides.html
+power-slide t dark > slides.html
+```
+
+Available templates:
+- `basic` - Standard presentation with title, content, and end slides
+- `minimal` - Clean, minimal design
+- `dark` - Modern dark theme with code blocks
 
 ## Generating Slides with LLM
 
-Use an LLM (Claude, GPT, etc.) to generate presentation HTML. See [PROMPTS.md](./PROMPTS.md) for example prompts.
+Use an LLM (Claude, GPT, etc.) to generate presentation HTML.
+
+```bash
+# Get example prompts
+power-slide p         # English
+power-slide p --ja    # Japanese
+```
 
 ### Quick Example
 
@@ -98,7 +123,7 @@ Include all CSS inline. Dark theme with gradient backgrounds.
 
 Then convert:
 ```bash
-npx tsx src/index.ts git-intro.html -o git-intro.pdf
+power-slide g git-intro.html -o git-intro.pdf
 ```
 
 ## Known Issues

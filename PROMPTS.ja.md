@@ -108,8 +108,8 @@ CSSは<head>内にインライン。
 
 HTMLをPDFに変換：
 ```bash
-npx tsx src/index.ts slides.html -o presentation.pdf
+power-slide g slides.html -o presentation.pdf
 
 # CSSエフェクトが正しくレンダリングされない場合はスクリーンショットモード：
-npx tsx src/index.ts slides.html -o presentation.pdf --screenshot
+power-slide g slides.html -o presentation.pdf -s
 ```

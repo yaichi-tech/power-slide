@@ -109,8 +109,8 @@ Each slide is <section class="slide"> at 1920x1080px.
 
 Convert the HTML to PDF:
 ```bash
-npx tsx src/index.ts slides.html -o presentation.pdf
+power-slide g slides.html -o presentation.pdf
 
 # If CSS effects don't render correctly, use screenshot mode:
-npx tsx src/index.ts slides.html -o presentation.pdf --screenshot
+power-slide g slides.html -o presentation.pdf -s
 ```

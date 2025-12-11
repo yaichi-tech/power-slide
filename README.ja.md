@@ -14,17 +14,29 @@ HTMLを16:9のPDFスライドに変換するツール。LLMによるプレゼン
 ```bash
 npm install
 npx playwright install chromium
+npm link  # 'power-slide'コマンドとしてグローバルインストール
 ```
 
 ## 使い方
 
-### 基本
+### コマンド
 
 ```bash
-npx tsx src/index.ts input.html -o output.pdf
+# PDF生成
+power-slide generate <input.html> -o output.pdf
+power-slide g <input.html> -o output.pdf  # 短縮形
+
+# テンプレート出力
+power-slide template [name]    # basic（デフォルト）, minimal, dark
+power-slide t --list           # 利用可能なテンプレート一覧
+power-slide t dark > slides.html
+
+# LLMプロンプト出力
+power-slide prompt             # 英語
+power-slide p --ja             # 日本語
 ```
 
-### オプション
+### 生成オプション
 
 | オプション | 説明 | デフォルト |
 |-----------|------|-----------|
@@ -38,7 +50,7 @@ npx tsx src/index.ts input.html -o output.pdf
 一部のCSSプロパティはPDF印刷モードで正しくレンダリングされません。`-s`フラグで完全なCSS対応が可能です：
 
 ```bash
-npx tsx src/index.ts input.html -o output.pdf -s
+power-slide g input.html -o output.pdf -s
 ```
 
 **注意:** スクリーンショットモードはラスタライズ出力（画像埋め込みPDF）になります。
@@ -75,15 +87,28 @@ npx tsx src/index.ts input.html -o output.pdf -s
 
 ## テンプレート
 
-`templates/`ディレクトリにスターターテンプレートがあります：
+`template`コマンドでスターターテンプレートを取得：
 
-- `basic.html` - タイトル、コンテンツ、終了スライドの標準構成
-- `minimal.html` - シンプルで清潔なデザイン
-- `dark.html` - モダンなダークテーマ（コードブロック付き）
+```bash
+power-slide t --list           # テンプレート一覧
+power-slide t basic > slides.html
+power-slide t dark > slides.html
+```
+
+利用可能なテンプレート：
+- `basic` - タイトル、コンテンツ、終了スライドの標準構成
+- `minimal` - シンプルで清潔なデザイン
+- `dark` - モダンなダークテーマ（コードブロック付き）
 
 ## LLMでスライドを生成する
 
-LLM（Claude、GPTなど）を使ってプレゼンHTMLを生成できます。プロンプト例は[PROMPTS.ja.md](./PROMPTS.ja.md)を参照。
+LLM（Claude、GPTなど）を使ってプレゼンHTMLを生成できます。
+
+```bash
+# プロンプト例を取得
+power-slide p         # 英語
+power-slide p --ja    # 日本語
+```
 
 ### 簡単な例
 
@@ -96,7 +121,7 @@ CSSはすべてインラインで。ダークテーマでグラデーション�
 
 変換：
 ```bash
-npx tsx src/index.ts git-intro.html -o git-intro.pdf
+power-slide g git-intro.html -o git-intro.pdf
 ```
 
 ## 既知の問題
