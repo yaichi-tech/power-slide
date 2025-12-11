@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #0a0a0f;
+      color: #ffffff;
+      padding: 100px 120px;
+    }
+
+    /* Title */
+    .slide-title {
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+    }
+    .slide-title h1 {
+      font-size: 88px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+    }
+    .slide-title .subtitle {
+      font-size: 36px;
+      color: #888;
+    }
+
+    /* Section */
+    .slide-section {
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-section h2 {
+      font-size: 72px;
+      font-weight: 600;
+      color: #00d4ff;
+    }
+
+    /* Content */
+    .slide-content h2 {
+      font-size: 56px;
+      font-weight: 600;
+      margin-bottom: 56px;
+      color: #ffffff;
+    }
+    .slide-content ul {
+      font-size: 38px;
+      line-height: 2;
+      list-style: none;
+    }
+    .slide-content ul li {
+      margin-bottom: 20px;
+      padding-left: 40px;
+      position: relative;
+      color: #cccccc;
+    }
+    .slide-content ul li::before {
+      content: "●";
+      position: absolute;
+      left: 0;
+      color: #7c3aed;
+      font-size: 16px;
+      top: 12px;
+    }
+
+    /* Code */
+    .slide-code {
+      background: #0d1117;
+    }
+    .slide-code h2 {
+      font-size: 48px;
+      margin-bottom: 40px;
+    }
+    .code-block {
+      background: #161b22;
+      border-radius: 12px;
+      padding: 48px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 32px;
+      line-height: 1.6;
+      color: #c9d1d9;
+      width: 100%;
+    }
+    .code-block .keyword { color: #ff7b72; }
+    .code-block .string { color: #a5d6ff; }
+    .code-block .function { color: #d2a8ff; }
+    .code-block .comment { color: #8b949e; }
+
+    /* End */
+    .slide-end {
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+    }
+    .slide-end h2 {
+      font-size: 80px;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+    .slide-end p {
+      font-size: 32px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <section class="slide slide-title">
+    <h1>Modern Dark Theme</h1>
+    <p class="subtitle">A sleek presentation template</p>
+  </section>
+
+  <section class="slide slide-section">
+    <h2>01. Introduction</h2>
+  </section>
+
+  <section class="slide slide-content">
+    <h2>Key Features</h2>
+    <ul>
+      <li>Clean and modern design</li>
+      <li>High contrast for readability</li>
+      <li>Gradient accents for visual interest</li>
+      <li>Perfect for tech presentations</li>
+    </ul>
+  </section>
+
+  <section class="slide slide-code">
+    <h2>Code Example</h2>
+    <div class="code-block">
+      <span class="keyword">const</span> <span class="function">createSlide</span> = (title) => {<br>
+      &nbsp;&nbsp;<span class="keyword">return</span> {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;title,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;created: <span class="keyword">new</span> Date()<br>
+      &nbsp;&nbsp;};<br>
+      };<br><br>
+      <span class="comment">// Generate your presentation</span><br>
+      <span class="function">createSlide</span>(<span class="string">"Hello World"</span>);
+    </div>
+  </section>
+
+  <section class="slide slide-end">
+    <h2>Thank You</h2>
+    <p>github.com/your-username</p>
+  </section>
+</body>
+</html>

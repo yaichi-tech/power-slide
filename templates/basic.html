@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px;
+      color: white;
+    }
+
+    /* Title Slide */
+    .slide-title {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      text-align: center;
+    }
+    .slide-title h1 {
+      font-size: 96px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .slide-title p {
+      font-size: 42px;
+      opacity: 0.9;
+    }
+
+    /* Content Slide */
+    .slide-content {
+      background: #1a1a2e;
+      align-items: flex-start;
+    }
+    .slide-content h2 {
+      font-size: 72px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      color: #667eea;
+    }
+    .slide-content ul {
+      font-size: 42px;
+      line-height: 1.8;
+      list-style: none;
+    }
+    .slide-content ul li {
+      margin-bottom: 24px;
+      padding-left: 48px;
+      position: relative;
+    }
+    .slide-content ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+    }
+
+    /* Image Slide */
+    .slide-image {
+      background: #0f0f1a;
+    }
+    .slide-image h2 {
+      font-size: 56px;
+      margin-bottom: 48px;
+    }
+    .slide-image .image-placeholder {
+      width: 1200px;
+      height: 600px;
+      background: linear-gradient(135deg, #2a2a4a 0%, #1a1a2e 100%);
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      color: #666;
+    }
+
+    /* End Slide */
+    .slide-end {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      text-align: center;
+    }
+    .slide-end h2 {
+      font-size: 96px;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+    .slide-end p {
+      font-size: 36px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <section class="slide slide-title">
+    <h1>Presentation Title</h1>
+    <p>Subtitle or Author Name</p>
+  </section>
+
+  <section class="slide slide-content">
+    <h2>Key Points</h2>
+    <ul>
+      <li>First important point goes here</li>
+      <li>Second point with more details</li>
+      <li>Third point to remember</li>
+      <li>Fourth point for emphasis</li>
+    </ul>
+  </section>
+
+  <section class="slide slide-image">
+    <h2>Visual Example</h2>
+    <div class="image-placeholder">
+      Replace with your image
+    </div>
+  </section>
+
+  <section class="slide slide-end">
+    <h2>Thank You!</h2>
+    <p>Questions? Contact: email@example.com</p>
+  </section>
+</body>
+</html>
