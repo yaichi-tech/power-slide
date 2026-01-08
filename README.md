@@ -18,15 +18,6 @@ npm install -g @yaichi/power-slide
 npx playwright install chromium
 ```
 
-### Development
-
-```bash
-git clone https://github.com/yaichi/power-slide
-cd power-slide
-npm install
-npm link
-```
-
 ## Usage
 
 ### Commands
@@ -141,6 +132,15 @@ power-slide g git-intro.html -o git-intro.pdf
 Some CSS effects (e.g., `text-shadow`) may render incorrectly in macOS Preview.app. This is a Preview rendering issue, not a PDF generation issue.
 
 **Workaround:** Open the PDF in Chrome or another PDF viewer for accurate rendering.
+
+## Development
+
+```bash
+git clone https://github.com/yaichi/power-slide
+cd power-slide
+npm install
+npm link
+```
 
 ## License
 

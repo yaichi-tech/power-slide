@@ -16,15 +16,6 @@ npm install -g @yaichi/power-slide
 npx playwright install chromium
 ```
 
-### 開発
-
-```bash
-git clone https://github.com/yaichi/power-slide
-cd power-slide
-npm install
-npm link
-```
-
 ## 使い方
 
 ### コマンド
@@ -139,6 +130,15 @@ power-slide g git-intro.html -o git-intro.pdf
 一部のCSSエフェクト（例: `text-shadow`）がmacOSのプレビュー.appで正しく表示されないことがあります。これはプレビューのレンダリングの問題であり、PDF生成の問題ではありません。
 
 **回避策:** Chromeや他のPDFビューアでPDFを開くと正しく表示されます。
+
+## 開発
+
+```bash
+git clone https://github.com/yaichi/power-slide
+cd power-slide
+npm install
+npm link
+```
 
 ## ライセンス
 
