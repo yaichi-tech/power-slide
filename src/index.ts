@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { readFile, mkdir, copyFile, writeFile } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { convertHtmlToPdf } from "./html-to-pdf.js";
@@ -84,6 +85,106 @@ program
       console.log(content);
     } catch (error) {
       console.error("Error reading prompts:", error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+  });
+
+// Init command
+program
+  .command("init")
+  .alias("i")
+  .description("Initialize a new slides project")
+  .argument("[dir]", "Directory name", "slides")
+  .action(async (dir: string) => {
+    const targetDir = resolve(process.cwd(), dir);
+
+    if (existsSync(targetDir)) {
+      console.error(`Error: Directory "${dir}" already exists`);
+      process.exit(1);
+    }
+
+    try {
+      // Create directories
+      await mkdir(targetDir, { recursive: true });
+      await mkdir(resolve(targetDir, "templates"), { recursive: true });
+      await mkdir(resolve(targetDir, "prompts"), { recursive: true });
+
+      // Copy templates
+      const templates = ["basic", "minimal", "dark"];
+      for (const name of templates) {
+        await copyFile(
+          resolve(rootDir, "templates", `${name}.html`),
+          resolve(targetDir, "templates", `${name}.html`)
+        );
+      }
+
+      // Copy prompts
+      await copyFile(
+        resolve(rootDir, "PROMPTS.md"),
+        resolve(targetDir, "prompts", "PROMPTS.md")
+      );
+      await copyFile(
+        resolve(rootDir, "PROMPTS.ja.md"),
+        resolve(targetDir, "prompts", "PROMPTS.ja.md")
+      );
+
+      // Create sample.html
+      const sampleHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Slides</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: white;
+      padding: 80px;
+    }
+    h1 { font-size: 120px; margin-bottom: 40px; }
+    h2 { font-size: 80px; margin-bottom: 40px; }
+    p { font-size: 48px; color: #a0a0a0; }
+    ul { font-size: 48px; line-height: 1.8; }
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <h1>Your Presentation</h1>
+    <p>Created with Power Slide</p>
+  </section>
+  <section class="slide">
+    <h2>Getting Started</h2>
+    <ul>
+      <li>Edit this file or use a template</li>
+      <li>Run: power-slide g sample.html -o output.pdf</li>
+      <li>Check templates/ for more styles</li>
+    </ul>
+  </section>
+</body>
+</html>`;
+      await writeFile(resolve(targetDir, "sample.html"), sampleHtml);
+
+      // Create .gitignore
+      await writeFile(resolve(targetDir, ".gitignore"), "*.pdf\n");
+
+      // Success message
+      console.log(`Created slides project in ./${dir}\n`);
+      console.log("Next steps:");
+      console.log(`  cd ${dir}`);
+      console.log("  power-slide g sample.html -o sample.pdf\n");
+      console.log("Files:");
+      console.log("  sample.html     Sample slide (try it now!)");
+      console.log("  templates/      Starter templates");
+      console.log("  prompts/        LLM prompt examples");
+    } catch (error) {
+      console.error("Error:", error instanceof Error ? error.message : error);
       process.exit(1);
     }
   });
