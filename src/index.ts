@@ -4,7 +4,7 @@ import { existsSync } from "node:fs";
 import { readFile, mkdir, copyFile, writeFile } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { convertHtmlToPdf } from "./html-to-pdf.js";
+import { convertHtmlToPdf, type Resolution, type Quality } from "./html-to-pdf.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -21,17 +21,50 @@ program
   .description("Convert HTML to PDF")
   .argument("<input>", "Input HTML file")
   .option("-o, --output <file>", "Output PDF file", "output.pdf")
-  .option("--width <px>", "Width in pixels", "1920")
-  .option("--height <px>", "Height in pixels", "1080")
+  .option("--width <px>", "Width in pixels")
+  .option("--height <px>", "Height in pixels")
   .option("-s, --screenshot", "Use screenshot mode (better CSS support)")
-  .action(async (input: string, options: { output: string; width: string; height: string; screenshot?: boolean }) => {
+  .option("-r, --resolution <preset>", "Resolution preset: high (1920x1080), medium (1280x720), low (960x540)")
+  .option("--scale <number>", "PDF scale factor (0.1-2, default: 1)")
+  .option("-q, --quality <preset>", "Quality preset: high (1920x1080), standard (1280x720), draft (960x540 + scale 0.9)")
+  .action(async (input: string, options: {
+    output: string;
+    width?: string;
+    height?: string;
+    screenshot?: boolean;
+    resolution?: string;
+    scale?: string;
+    quality?: string;
+  }) => {
     try {
+      // Validate resolution option
+      if (options.resolution && !["high", "medium", "low"].includes(options.resolution)) {
+        console.error(`Invalid resolution: ${options.resolution}. Must be high, medium, or low.`);
+        process.exit(1);
+      }
+
+      // Validate quality option
+      if (options.quality && !["high", "standard", "draft"].includes(options.quality)) {
+        console.error(`Invalid quality: ${options.quality}. Must be high, standard, or draft.`);
+        process.exit(1);
+      }
+
+      // Validate scale option
+      const scale = options.scale ? parseFloat(options.scale) : undefined;
+      if (scale !== undefined && (isNaN(scale) || scale < 0.1 || scale > 2)) {
+        console.error(`Invalid scale: ${options.scale}. Must be a number between 0.1 and 2.`);
+        process.exit(1);
+      }
+
       await convertHtmlToPdf({
         inputPath: input,
         outputPath: options.output,
-        width: parseInt(options.width, 10),
-        height: parseInt(options.height, 10),
+        width: options.width ? parseInt(options.width, 10) : undefined,
+        height: options.height ? parseInt(options.height, 10) : undefined,
         screenshot: options.screenshot,
+        resolution: options.resolution as Resolution | undefined,
+        scale,
+        quality: options.quality as Quality | undefined,
       });
     } catch (error) {
       console.error("Error:", error instanceof Error ? error.message : error);

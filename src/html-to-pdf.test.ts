@@ -29,7 +29,7 @@ const MULTI_SLIDE_HTML = `<!DOCTYPE html>
 </html>`;
 
 function createMockPage(slideCount: number, writtenFiles: Map<string, Uint8Array | string>) {
-  const pdfCalls: Array<{ path: string; width: string; height: string }> = [];
+  const pdfCalls: Array<{ path: string; width: string; height: string; scale?: number }> = [];
   const screenshotCalls: Array<{ type: string }> = [];
 
   return {
@@ -42,8 +42,8 @@ function createMockPage(slideCount: number, writtenFiles: Map<string, Uint8Array
         count: vi.fn().mockResolvedValue(slideCount),
       })),
       addStyleTag: vi.fn(),
-      pdf: vi.fn(async (options: { path: string; width: string; height: string }) => {
-        pdfCalls.push({ path: options.path, width: options.width, height: options.height });
+      pdf: vi.fn(async (options: { path: string; width: string; height: string; scale?: number }) => {
+        pdfCalls.push({ path: options.path, width: options.width, height: options.height, scale: options.scale });
         const pdf = await PDFDocument.create();
         pdf.addPage([1920, 1080]);
         const pdfBytes = await pdf.save();
@@ -155,6 +155,7 @@ describe("convertHtmlToPdf", () => {
       path: "output.pdf",
       width: "1920px",
       height: "1080px",
+      scale: 1,
     });
   });
 
@@ -246,5 +247,128 @@ describe("convertHtmlToPdf", () => {
     );
 
     expect(page.addStyleTag).toHaveBeenCalled();
+  });
+
+  it("should use default scale of 1", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf" },
+      deps
+    );
+
+    expect(pdfCalls[0].scale).toBe(1);
+  });
+
+  it("should use custom scale when specified", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", scale: 0.8 },
+      deps
+    );
+
+    expect(pdfCalls[0].scale).toBe(0.8);
+  });
+
+  it("should use medium resolution preset", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", resolution: "medium" },
+      deps
+    );
+
+    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 1280, height: 720 });
+    expect(pdfCalls[0].width).toBe("1280px");
+    expect(pdfCalls[0].height).toBe("720px");
+  });
+
+  it("should use low resolution preset", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", resolution: "low" },
+      deps
+    );
+
+    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 960, height: 540 });
+    expect(pdfCalls[0].width).toBe("960px");
+    expect(pdfCalls[0].height).toBe("540px");
+  });
+
+  it("should use standard quality preset", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", quality: "standard" },
+      deps
+    );
+
+    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 1280, height: 720 });
+    expect(pdfCalls[0].width).toBe("1280px");
+    expect(pdfCalls[0].height).toBe("720px");
+    expect(pdfCalls[0].scale).toBe(1);
+  });
+
+  it("should use draft quality preset with scale 0.9", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", quality: "draft" },
+      deps
+    );
+
+    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 960, height: 540 });
+    expect(pdfCalls[0].width).toBe("960px");
+    expect(pdfCalls[0].height).toBe("540px");
+    expect(pdfCalls[0].scale).toBe(0.9);
+  });
+
+  it("should override quality preset scale with explicit scale", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", quality: "draft", scale: 0.5 },
+      deps
+    );
+
+    expect(pdfCalls[0].scale).toBe(0.5);
+  });
+
+  it("should prioritize explicit width/height over presets", async () => {
+    const { page, pdfCalls } = createMockPage(1, writtenFiles);
+    const deps = createDeps(page, SINGLE_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", quality: "draft", width: 800, height: 600 },
+      deps
+    );
+
+    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 800, height: 600 });
+    expect(pdfCalls[0].width).toBe("800px");
+    expect(pdfCalls[0].height).toBe("600px");
+  });
+
+  it("should apply scale to multiple slides", async () => {
+    const { page, pdfCalls } = createMockPage(3, writtenFiles);
+    const deps = createDeps(page, MULTI_SLIDE_HTML);
+
+    await convertHtmlToPdf(
+      { inputPath: "input.html", outputPath: "output.pdf", scale: 0.8 },
+      deps
+    );
+
+    expect(pdfCalls).toHaveLength(3);
+    expect(pdfCalls[0].scale).toBe(0.8);
+    expect(pdfCalls[1].scale).toBe(0.8);
+    expect(pdfCalls[2].scale).toBe(0.8);
   });
 });

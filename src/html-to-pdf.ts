@@ -3,13 +3,31 @@ import { readFile, writeFile, unlink } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 import { PDFDocument } from "pdf-lib";
 
+export type Resolution = "high" | "medium" | "low";
+export type Quality = "high" | "standard" | "draft";
+
 export interface ConvertOptions {
   inputPath: string;
   outputPath: string;
   width?: number;
   height?: number;
   screenshot?: boolean;
+  resolution?: Resolution;
+  scale?: number;
+  quality?: Quality;
 }
+
+export const RESOLUTION_PRESETS: Record<Resolution, { width: number; height: number }> = {
+  high: { width: 1920, height: 1080 },
+  medium: { width: 1280, height: 720 },
+  low: { width: 960, height: 540 },
+};
+
+export const QUALITY_PRESETS: Record<Quality, { resolution: Resolution; scale: number }> = {
+  high: { resolution: "high", scale: 1 },
+  standard: { resolution: "medium", scale: 1 },
+  draft: { resolution: "low", scale: 0.9 },
+};
 
 export interface Dependencies {
   launchBrowser?: () => Promise<Browser>;
@@ -43,10 +61,29 @@ export async function convertHtmlToPdf(
   const {
     inputPath,
     outputPath,
-    width = 1920,
-    height = 1080,
     screenshot = false,
+    quality,
+    resolution,
   } = options;
+
+  // Resolve dimensions: explicit width/height > quality preset > resolution preset > default (high)
+  let { width, height, scale } = options;
+
+  if (quality && !width && !height) {
+    const qualityPreset = QUALITY_PRESETS[quality];
+    const resolutionPreset = RESOLUTION_PRESETS[qualityPreset.resolution];
+    width = resolutionPreset.width;
+    height = resolutionPreset.height;
+    scale = scale ?? qualityPreset.scale;
+  } else if (resolution && !width && !height) {
+    const resolutionPreset = RESOLUTION_PRESETS[resolution];
+    width = resolutionPreset.width;
+    height = resolutionPreset.height;
+  }
+
+  width = width ?? 1920;
+  height = height ?? 1080;
+  scale = scale ?? 1;
 
   const absoluteInputPath = resolve(inputPath);
   const html = await readFileImpl(absoluteInputPath, "utf-8");
@@ -63,7 +100,7 @@ export async function convertHtmlToPdf(
   if (screenshot) {
     await convertWithScreenshot(page, outputPath, width, height, slideCount, { writeFile: writeFileImpl });
   } else if (slideCount > 1) {
-    await convertMultipleSlides(page, outputPath, width, height, slideCount, deps);
+    await convertMultipleSlides(page, outputPath, width, height, slideCount, scale, deps);
   } else {
     await page.pdf({
       path: outputPath,
@@ -71,6 +108,7 @@ export async function convertHtmlToPdf(
       height: `${height}px`,
       printBackground: true,
       margin: { top: 0, right: 0, bottom: 0, left: 0 },
+      scale,
     });
   }
 
@@ -128,6 +166,7 @@ async function convertMultipleSlides(
   width: number,
   height: number,
   slideCount: number,
+  scale: number,
   deps: Dependencies
 ): Promise<void> {
   const {
@@ -157,6 +196,7 @@ async function convertMultipleSlides(
       height: `${height}px`,
       printBackground: true,
       margin: { top: 0, right: 0, bottom: 0, left: 0 },
+      scale,
     });
 
     await page.addStyleTag({
