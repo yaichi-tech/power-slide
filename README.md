@@ -45,6 +45,32 @@ power-slide p --ja             # Japanese
 | `--width <px>` | Slide width | `1920` |
 | `--height <px>` | Slide height | `1080` |
 | `-s, --screenshot` | Screenshot mode (better CSS support) | `false` |
+| `-r, --resolution <preset>` | Resolution preset: `high`, `medium`, `low` | `high` |
+| `--scale <number>` | PDF scale (0.1-2) | `1` |
+| `-q, --quality <preset>` | Quality preset: `high`, `standard`, `draft` | `high` |
+
+### Reducing File Size
+
+Use resolution and quality presets to reduce PDF file size:
+
+```bash
+# Draft quality (960x540, scale 0.9) - smallest file size
+power-slide g input.html -o output.pdf -q draft
+
+# Standard quality (1280x720) - good for presentations
+power-slide g input.html -o output.pdf -q standard
+
+# Specify resolution and scale separately
+power-slide g input.html -o output.pdf -r medium --scale 0.8
+```
+
+| Preset | Resolution | Scale | Use Case |
+|--------|------------|-------|----------|
+| `high` | 1920x1080 | 1 | High-quality printing |
+| `standard` | 1280x720 | 1 | Presentations, sharing |
+| `draft` | 960x540 | 0.9 | Review, drafts |
+
+**Note:** `--width`/`--height` takes priority over presets.
 
 ### Screenshot Mode
 
@@ -140,6 +166,25 @@ git clone https://github.com/yaichi/power-slide
 cd power-slide
 npm install
 npm link
+```
+
+### Testing Local Changes
+
+After running `npm link`, the `power-slide` command will use your local development version:
+
+```bash
+# Test with your local changes
+power-slide g test.html -o test.pdf
+
+# Check which version is being used
+power-slide --version
+```
+
+To unlink and revert to the published version:
+
+```bash
+npm unlink -g @yaichi/power-slide
+npm install -g @yaichi/power-slide
 ```
 
 ## License

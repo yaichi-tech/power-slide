@@ -104,8 +104,8 @@ export async function convertHtmlToPdf(
   } else {
     await page.pdf({
       path: outputPath,
-      width: `${width}px`,
-      height: `${height}px`,
+      width: `${width*scale}px`,
+      height: `${height*scale}px`,
       printBackground: true,
       margin: { top: 0, right: 0, bottom: 0, left: 0 },
       scale,
@@ -192,8 +192,8 @@ async function convertMultipleSlides(
 
     await page.pdf({
       path: tempPath,
-      width: `${width}px`,
-      height: `${height}px`,
+      width: `${width*scale}px`,
+      height: `${height*scale}px`,
       printBackground: true,
       margin: { top: 0, right: 0, bottom: 0, left: 0 },
       scale,

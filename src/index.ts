@@ -12,7 +12,7 @@ const rootDir = resolve(__dirname, "..");
 program
   .name("power-slide")
   .description("HTML to 16:9 PDF slide generator")
-  .version("0.1.0");
+  .version("0.1.1");
 
 // Generate PDF command
 program

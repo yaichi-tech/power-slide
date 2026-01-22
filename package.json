@@ -1,6 +1,6 @@
 {
   "name": "@yaichi/power-slide",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convert HTML to 16:9 PDF slides. Designed for LLM-generated presentations.",
   "type": "module",
   "main": "dist/index.js",

@@ -43,6 +43,32 @@ power-slide p --ja             # 日本語
 | `--width <px>` | スライド幅 | `1920` |
 | `--height <px>` | スライド高さ | `1080` |
 | `-s, --screenshot` | スクリーンショットモード（CSS完全対応） | `false` |
+| `-r, --resolution <preset>` | 解像度プリセット: `high`, `medium`, `low` | `high` |
+| `--scale <number>` | PDFスケール（0.1〜2） | `1` |
+| `-q, --quality <preset>` | 品質プリセット: `high`, `standard`, `draft` | `high` |
+
+### ファイルサイズ削減
+
+解像度と品質プリセットでPDFファイルサイズを削減できます：
+
+```bash
+# ドラフト品質（960x540、scale 0.9）- 最小ファイルサイズ
+power-slide g input.html -o output.pdf -q draft
+
+# 標準品質（1280x720）- プレゼン用途に十分
+power-slide g input.html -o output.pdf -q standard
+
+# 解像度とスケールを個別指定
+power-slide g input.html -o output.pdf -r medium --scale 0.8
+```
+
+| プリセット | 解像度 | スケール | 用途 |
+|-----------|--------|---------|------|
+| `high` | 1920x1080 | 1 | 高品質印刷 |
+| `standard` | 1280x720 | 1 | プレゼン・共有 |
+| `draft` | 960x540 | 0.9 | レビュー・ドラフト |
+
+**注意:** `--width`/`--height`を指定するとプリセットより優先されます。
 
 ### スクリーンショットモード
 
@@ -138,6 +164,25 @@ git clone https://github.com/yaichi/power-slide
 cd power-slide
 npm install
 npm link
+```
+
+### ローカル変更のテスト
+
+`npm link`を実行後、`power-slide`コマンドはローカルの開発版を使用します：
+
+```bash
+# ローカルの変更をテスト
+power-slide g test.html -o test.pdf
+
+# 使用中のバージョンを確認
+power-slide --version
+```
+
+リンクを解除して公開版に戻すには：
+
+```bash
+npm unlink -g @yaichi/power-slide
+npm install -g @yaichi/power-slide
 ```
 
 ## ライセンス
