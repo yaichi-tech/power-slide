@@ -14,7 +14,7 @@ Requirements:
 
 CSS Guidelines:
 - Set :root { --base-width: 1920; }
-- Set .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px))); display: flex; }
+- Set .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px))); margin-bottom: calc((100vw - var(--base-width) * 1px) * 9 / 16); display: flex; }
 - Use large fonts (h1: 72-96px, body: 36-48px)
 - Keep text minimal per slide
 - Use gradients for backgrounds
@@ -35,6 +35,7 @@ Technical Requirements:
 - CSS variables: :root { --base-width: 1920; }
 - Slide dimensions: width: calc(var(--base-width) * 1px), height: calc(var(--base-width) * 1px * 9 / 16)
 - Responsive scaling: transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px)));
+- Remove gaps between slides: margin-bottom: calc((100vw - var(--base-width) * 1px) * 9 / 16);
 - All styles must be inline in <style> tag
 - Font sizes: titles 72-96px, body text 36-48px
 - Use flexbox for centering content

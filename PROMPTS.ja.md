@@ -13,7 +13,7 @@
 
 CSSガイドライン：
 - :root { --base-width: 1920; } を設定
-- .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px))); display: flex; }
+- .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px))); margin-bottom: calc((100vw - var(--base-width) * 1px) * 9 / 16); display: flex; }
 - 大きなフォントを使用（h1: 72-96px、本文: 36-48px）
 - 1スライドあたりのテキストは最小限に
 - 背景にはグラデーションを使用
@@ -34,6 +34,7 @@ CSSガイドライン：
 - CSS変数: :root { --base-width: 1920; }
 - スライドサイズ: width: calc(var(--base-width) * 1px), height: calc(var(--base-width) * 1px * 9 / 16)
 - レスポンシブ対応: transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px)));
+- スライド間の余白除去: margin-bottom: calc((100vw - var(--base-width) * 1px) * 9 / 16);
 - スタイルはすべて<style>タグ内にインラインで
 - フォントサイズ: タイトル72-96px、本文36-48px
 - コンテンツの中央揃えにはflexboxを使用
