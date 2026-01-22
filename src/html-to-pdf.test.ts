@@ -129,18 +129,6 @@ describe("convertHtmlToPdf", () => {
     expect(page.setViewportSize).toHaveBeenCalledWith({ width: 1920, height: 1080 });
   });
 
-  it("should set viewport size with custom dimensions", async () => {
-    const { page } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", width: 1280, height: 720 },
-      deps
-    );
-
-    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 1280, height: 720 });
-  });
-
   it("should generate single page PDF for single slide", async () => {
     const { page, pdfCalls } = createMockPage(1, writtenFiles);
     const deps = createDeps(page, SINGLE_SLIDE_HTML);
@@ -271,90 +259,6 @@ describe("convertHtmlToPdf", () => {
     );
 
     expect(pdfCalls[0].scale).toBe(0.8);
-  });
-
-  it("should use medium resolution preset", async () => {
-    const { page, pdfCalls } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", resolution: "medium" },
-      deps
-    );
-
-    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 1280, height: 720 });
-    expect(pdfCalls[0].width).toBe("1280px");
-    expect(pdfCalls[0].height).toBe("720px");
-  });
-
-  it("should use low resolution preset", async () => {
-    const { page, pdfCalls } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", resolution: "low" },
-      deps
-    );
-
-    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 960, height: 540 });
-    expect(pdfCalls[0].width).toBe("960px");
-    expect(pdfCalls[0].height).toBe("540px");
-  });
-
-  it("should use standard quality preset", async () => {
-    const { page, pdfCalls } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", quality: "standard" },
-      deps
-    );
-
-    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 1280, height: 720 });
-    expect(pdfCalls[0].width).toBe("1280px");
-    expect(pdfCalls[0].height).toBe("720px");
-    expect(pdfCalls[0].scale).toBe(1);
-  });
-
-  it("should use draft quality preset with scale 0.9", async () => {
-    const { page, pdfCalls } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", quality: "draft" },
-      deps
-    );
-
-    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 960, height: 540 });
-    expect(pdfCalls[0].width).toBe("960px");
-    expect(pdfCalls[0].height).toBe("540px");
-    expect(pdfCalls[0].scale).toBe(0.9);
-  });
-
-  it("should override quality preset scale with explicit scale", async () => {
-    const { page, pdfCalls } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", quality: "draft", scale: 0.5 },
-      deps
-    );
-
-    expect(pdfCalls[0].scale).toBe(0.5);
-  });
-
-  it("should prioritize explicit width/height over presets", async () => {
-    const { page, pdfCalls } = createMockPage(1, writtenFiles);
-    const deps = createDeps(page, SINGLE_SLIDE_HTML);
-
-    await convertHtmlToPdf(
-      { inputPath: "input.html", outputPath: "output.pdf", quality: "draft", width: 800, height: 600 },
-      deps
-    );
-
-    expect(page.setViewportSize).toHaveBeenCalledWith({ width: 800, height: 600 });
-    expect(pdfCalls[0].width).toBe("800px");
-    expect(pdfCalls[0].height).toBe("600px");
   });
 
   it("should apply scale to multiple slides", async () => {

@@ -40,35 +40,20 @@ power-slide p --ja             # 日本語
 | オプション | 説明 | デフォルト |
 |-----------|------|-----------|
 | `-o, --output <file>` | 出力PDFファイル | `output.pdf` |
-| `--width <px>` | スライド幅 | `1920` |
-| `--height <px>` | スライド高さ | `1080` |
 | `-s, --screenshot` | スクリーンショットモード（CSS完全対応） | `false` |
-| `-r, --resolution <preset>` | 解像度プリセット: `high`, `medium`, `low` | `high` |
 | `--scale <number>` | PDFスケール（0.1〜2） | `1` |
-| `-q, --quality <preset>` | 品質プリセット: `high`, `standard`, `draft` | `high` |
 
 ### ファイルサイズ削減
 
-解像度と品質プリセットでPDFファイルサイズを削減できます：
+`--scale`でPDFファイルサイズを削減できます：
 
 ```bash
-# ドラフト品質（960x540、scale 0.9）- 最小ファイルサイズ
-power-slide g input.html -o output.pdf -q draft
+# デフォルト（1920x1080, scale=1）
+power-slide g input.html -o output.pdf
 
-# 標準品質（1280x720）- プレゼン用途に十分
-power-slide g input.html -o output.pdf -q standard
-
-# 解像度とスケールを個別指定
-power-slide g input.html -o output.pdf -r medium --scale 0.8
+# スケールでファイルサイズ削減
+power-slide g input.html -o output.pdf --scale 0.8
 ```
-
-| プリセット | 解像度 | スケール | 用途 |
-|-----------|--------|---------|------|
-| `high` | 1920x1080 | 1 | 高品質印刷 |
-| `standard` | 1280x720 | 1 | プレゼン・共有 |
-| `draft` | 960x540 | 0.9 | レビュー・ドラフト |
-
-**注意:** `--width`/`--height`を指定するとプリセットより優先されます。
 
 ### スクリーンショットモード
 

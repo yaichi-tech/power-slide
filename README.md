@@ -42,35 +42,20 @@ power-slide p --ja             # Japanese
 | Option | Description | Default |
 |--------|-------------|---------|
 | `-o, --output <file>` | Output PDF file | `output.pdf` |
-| `--width <px>` | Slide width | `1920` |
-| `--height <px>` | Slide height | `1080` |
 | `-s, --screenshot` | Screenshot mode (better CSS support) | `false` |
-| `-r, --resolution <preset>` | Resolution preset: `high`, `medium`, `low` | `high` |
 | `--scale <number>` | PDF scale (0.1-2) | `1` |
-| `-q, --quality <preset>` | Quality preset: `high`, `standard`, `draft` | `high` |
 
 ### Reducing File Size
 
-Use resolution and quality presets to reduce PDF file size:
+Use `--scale` to reduce PDF file size:
 
 ```bash
-# Draft quality (960x540, scale 0.9) - smallest file size
-power-slide g input.html -o output.pdf -q draft
+# Default (1920x1080, scale=1)
+power-slide g input.html -o output.pdf
 
-# Standard quality (1280x720) - good for presentations
-power-slide g input.html -o output.pdf -q standard
-
-# Specify resolution and scale separately
-power-slide g input.html -o output.pdf -r medium --scale 0.8
+# Use scale to reduce file size
+power-slide g input.html -o output.pdf --scale 0.8
 ```
-
-| Preset | Resolution | Scale | Use Case |
-|--------|------------|-------|----------|
-| `high` | 1920x1080 | 1 | High-quality printing |
-| `standard` | 1280x720 | 1 | Presentations, sharing |
-| `draft` | 960x540 | 0.9 | Review, drafts |
-
-**Note:** `--width`/`--height` takes priority over presets.
 
 ### Screenshot Mode
 
