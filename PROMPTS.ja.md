@@ -13,7 +13,7 @@
 
 CSSガイドライン：
 - :root { --base-width: 1920; } を設定
-- .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / var(--base-width))); display: flex; }
+- .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px))); display: flex; }
 - 大きなフォントを使用（h1: 72-96px、本文: 36-48px）
 - 1スライドあたりのテキストは最小限に
 - 背景にはグラデーションを使用
@@ -33,7 +33,7 @@ CSSガイドライン：
 - HTML構造: 各スライドは<section class="slide">
 - CSS変数: :root { --base-width: 1920; }
 - スライドサイズ: width: calc(var(--base-width) * 1px), height: calc(var(--base-width) * 1px * 9 / 16)
-- レスポンシブ対応: transform-origin: top left; transform: scale(calc(100vw / var(--base-width)));
+- レスポンシブ対応: transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px)));
 - スタイルはすべて<style>タグ内にインラインで
 - フォントサイズ: タイトル72-96px、本文36-48px
 - コンテンツの中央揃えにはflexboxを使用
@@ -58,7 +58,7 @@ CSSガイドライン：
 ```
 [トピック]について[N]枚のHTMLプレゼンを作成。
 各スライド: <section class="slide">、CSS transformでレスポンシブ対応。
-:root { --base-width: 1920; } と transform: scale(calc(100vw / var(--base-width))) を使用。
+:root { --base-width: 1920; } と transform: scale(calc(100vw / (var(--base-width) * 1px))) を使用。
 CSSはインラインで。大きなフォントとグラデーション背景。
 内容: [リスト]
 ```

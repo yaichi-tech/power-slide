@@ -14,7 +14,7 @@ Requirements:
 
 CSS Guidelines:
 - Set :root { --base-width: 1920; }
-- Set .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / var(--base-width))); display: flex; }
+- Set .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px))); display: flex; }
 - Use large fonts (h1: 72-96px, body: 36-48px)
 - Keep text minimal per slide
 - Use gradients for backgrounds
@@ -34,7 +34,7 @@ Technical Requirements:
 - HTML structure: each slide is a <section class="slide">
 - CSS variables: :root { --base-width: 1920; }
 - Slide dimensions: width: calc(var(--base-width) * 1px), height: calc(var(--base-width) * 1px * 9 / 16)
-- Responsive scaling: transform-origin: top left; transform: scale(calc(100vw / var(--base-width)));
+- Responsive scaling: transform-origin: top left; transform: scale(calc(100vw / (var(--base-width) * 1px)));
 - All styles must be inline in <style> tag
 - Font sizes: titles 72-96px, body text 36-48px
 - Use flexbox for centering content
@@ -59,7 +59,7 @@ Content to cover:
 ```
 Generate an HTML presentation with [N] slides about [TOPIC].
 Each slide: <section class="slide"> with responsive scaling using CSS transform.
-Use :root { --base-width: 1920; } and transform: scale(calc(100vw / var(--base-width))).
+Use :root { --base-width: 1920; } and transform: scale(calc(100vw / (var(--base-width) * 1px))).
 Include all CSS inline. Use large fonts and gradient backgrounds.
 Topics: [LIST]
 ```
