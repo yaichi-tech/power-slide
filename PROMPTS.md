@@ -13,7 +13,8 @@ Requirements:
 - Create [N] slides covering: [LIST OF TOPICS]
 
 CSS Guidelines:
-- Set .slide { width: 1920px; height: 1080px; display: flex; }
+- Set :root { --base-width: 1920; }
+- Set .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / var(--base-width))); display: flex; }
 - Use large fonts (h1: 72-96px, body: 36-48px)
 - Keep text minimal per slide
 - Use gradients for backgrounds
@@ -31,7 +32,9 @@ Structure:
 
 Technical Requirements:
 - HTML structure: each slide is a <section class="slide">
-- Slide dimensions: exactly 1920px × 1080px
+- CSS variables: :root { --base-width: 1920; }
+- Slide dimensions: width: calc(var(--base-width) * 1px), height: calc(var(--base-width) * 1px * 9 / 16)
+- Responsive scaling: transform-origin: top left; transform: scale(calc(100vw / var(--base-width)));
 - All styles must be inline in <style> tag
 - Font sizes: titles 72-96px, body text 36-48px
 - Use flexbox for centering content
@@ -55,7 +58,8 @@ Content to cover:
 
 ```
 Generate an HTML presentation with [N] slides about [TOPIC].
-Each slide: <section class="slide"> with width:1920px, height:1080px.
+Each slide: <section class="slide"> with responsive scaling using CSS transform.
+Use :root { --base-width: 1920; } and transform: scale(calc(100vw / var(--base-width))).
 Include all CSS inline. Use large fonts and gradient backgrounds.
 Topics: [LIST]
 ```
@@ -75,7 +79,7 @@ Slides needed:
 
 Design: Modern dark theme with blue/purple accents.
 Use code examples where appropriate (style them with monospace font).
-Each slide is <section class="slide"> at 1920x1080px.
+Each slide is <section class="slide"> with responsive scaling (transform scale).
 All CSS inline in <head>.
 ```
 
@@ -94,7 +98,7 @@ Slides:
 
 Design: Clean, professional. White background with blue accents.
 Use large, bold numbers for metrics.
-Each slide is <section class="slide"> at 1920x1080px.
+Each slide is <section class="slide"> with responsive scaling (transform scale).
 ```
 
 ## Tips for Better Results

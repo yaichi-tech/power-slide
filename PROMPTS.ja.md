@@ -12,7 +12,8 @@
 - [N]枚のスライドで以下をカバー: [トピックリスト]
 
 CSSガイドライン：
-- .slide { width: 1920px; height: 1080px; display: flex; }
+- :root { --base-width: 1920; } を設定
+- .slide { width: calc(var(--base-width) * 1px); height: calc(var(--base-width) * 1px * 9 / 16); transform-origin: top left; transform: scale(calc(100vw / var(--base-width))); display: flex; }
 - 大きなフォントを使用（h1: 72-96px、本文: 36-48px）
 - 1スライドあたりのテキストは最小限に
 - 背景にはグラデーションを使用
@@ -30,7 +31,9 @@ CSSガイドライン：
 
 技術要件：
 - HTML構造: 各スライドは<section class="slide">
-- スライドサイズ: 1920px × 1080px
+- CSS変数: :root { --base-width: 1920; }
+- スライドサイズ: width: calc(var(--base-width) * 1px), height: calc(var(--base-width) * 1px * 9 / 16)
+- レスポンシブ対応: transform-origin: top left; transform: scale(calc(100vw / var(--base-width)));
 - スタイルはすべて<style>タグ内にインラインで
 - フォントサイズ: タイトル72-96px、本文36-48px
 - コンテンツの中央揃えにはflexboxを使用
@@ -54,7 +57,8 @@ CSSガイドライン：
 
 ```
 [トピック]について[N]枚のHTMLプレゼンを作成。
-各スライド: <section class="slide">、width:1920px、height:1080px。
+各スライド: <section class="slide">、CSS transformでレスポンシブ対応。
+:root { --base-width: 1920; } と transform: scale(calc(100vw / var(--base-width))) を使用。
 CSSはインラインで。大きなフォントとグラデーション背景。
 内容: [リスト]
 ```
@@ -74,7 +78,7 @@ CSSはインラインで。大きなフォントとグラデーション背景�
 
 デザイン: モダンなダークテーマ、青/紫のアクセント。
 適切な箇所にコード例を含める（monospaceフォントでスタイリング）。
-各スライドは<section class="slide">、サイズは1920x1080px。
+各スライドは<section class="slide">、transform scaleでレスポンシブ対応。
 CSSは<head>内にインライン。
 ```
 
@@ -93,7 +97,7 @@ CSSは<head>内にインライン。
 
 デザイン: クリーンでプロフェッショナル。白背景に青のアクセント。
 指標には大きく太い数字を使用。
-各スライドは<section class="slide">、サイズは1920x1080px。
+各スライドは<section class="slide">、transform scaleでレスポンシブ対応。
 ```
 
 ## より良い結果を得るコツ

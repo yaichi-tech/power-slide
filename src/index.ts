@@ -144,10 +144,13 @@ program
   <meta charset="UTF-8">
   <title>Sample Slides</title>
   <style>
+    :root { --base-width: 1920; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     .slide {
-      width: 1920px;
-      height: 1080px;
+      width: calc(var(--base-width) * 1px);
+      height: calc(var(--base-width) * 1px * 9 / 16);
+      transform-origin: top left;
+      transform: scale(calc(100vw / var(--base-width)));
       display: flex;
       flex-direction: column;
       justify-content: center;
